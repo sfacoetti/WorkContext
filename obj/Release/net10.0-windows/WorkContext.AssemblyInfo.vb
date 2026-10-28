@@ -15,7 +15,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("WorkContext"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Release"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6a0b51f47c649305e7e42c2027bbb147292f3e3"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("WorkContext"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("WorkContext"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _

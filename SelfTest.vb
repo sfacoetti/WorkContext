@@ -14,13 +14,13 @@ Public Module SelfTest
         Verifica(cfg.Trova(Array.Empty(Of String)()) Is Nothing, "nessuna rete")
 
         Dim tmp = Path.Combine(Path.GetTempPath(), $"wc-selftest-{Guid.NewGuid()}.json")
-        cfg.Clienti(0).Elementi.Add(New Elemento With {.Destinazione = "notepad.exe", .Monitor = 2, .Posizione = Posizione.MetaDestra})
+        cfg.Clienti(0).Elementi.Add(New Elemento With {.Destinazione = "notepad.exe", .Monitor = 2, .Posizione = Posizione.MetaDestra, .NuovaScheda = True})
         cfg.RitardoSecondi = 42
         cfg.Salva(tmp)
         cfg.Salva(tmp)
         Dim letto = Configurazione.Carica(tmp)
         Dim e = letto.Clienti(0).Elementi(0)
-        Verifica(e.Monitor = 2 AndAlso e.Posizione = Posizione.MetaDestra AndAlso letto.RitardoSecondi = 42, "round-trip JSON")
+        Verifica(e.Monitor = 2 AndAlso e.Posizione = Posizione.MetaDestra AndAlso e.NuovaScheda AndAlso letto.RitardoSecondi = 42, "round-trip JSON")
         File.WriteAllText(tmp & ".vecchio", "{ ""Clienti"": [] }")
         Verifica(Configurazione.Carica(tmp & ".vecchio").RitardoSecondi = 5, "JSON vecchio senza RitardoSecondi -> 5 s")
         File.Delete(tmp & ".vecchio")

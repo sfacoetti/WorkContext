@@ -16,12 +16,14 @@ Public Class FormConfigurazione
                                                        .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill}
     Private ReadOnly dettaglio As New TableLayoutPanel With {.Dock = DockStyle.Fill, .ColumnCount = 2, .Padding = New Padding(8)}
     Private ReadOnly ritardo As New NumericUpDown With {.Minimum = 0, .Maximum = 600, .Width = 60, .Margin = New Padding(0, 4, 0, 0)}
+    Private ReadOnly menuSfoglia As New ContextMenuStrip()
+    Private rigaSfoglia As Integer
     Private attuale As Cliente
     Private caricamento As Boolean
 
     Public Sub New(cfg As Configurazione)
         Text = "WorkContext – clienti"
-        Size = New Size(980, 600)
+        Size = New Size(1180, 620)
         MinimumSize = New Size(700, 450)
         StartPosition = FormStartPosition.CenterScreen
         Font = SystemFonts.MessageBoxFont
@@ -120,13 +122,18 @@ Public Class FormConfigurazione
             New With {.Testo = "Massimizzata", .Valore = Posizione.Massimizzata},
             New With {.Testo = "Metà sinistra", .Valore = Posizione.MetaSinistra},
             New With {.Testo = "Metà destra", .Valore = Posizione.MetaDestra}}
-        griglia.Columns.Add(New DataGridViewTextBoxColumn With {.HeaderText = "Programma, file o URL", .DataPropertyName = NameOf(Elemento.Destinazione), .FillWeight = 45})
+        griglia.Columns.Add(New DataGridViewTextBoxColumn With {.HeaderText = "Programma, file o URL", .DataPropertyName = NameOf(Elemento.Destinazione), .FillWeight = 45, .MinimumWidth = 200})
         griglia.Columns.Add(New DataGridViewButtonColumn With {.HeaderText = "", .Text = "…", .UseColumnTextForButtonValue = True, .AutoSizeMode = DataGridViewAutoSizeColumnMode.None, .Width = 32})
-        griglia.Columns.Add(New DataGridViewTextBoxColumn With {.HeaderText = "Argomenti", .DataPropertyName = NameOf(Elemento.Argomenti), .FillWeight = 25})
+        griglia.Columns.Add(New DataGridViewTextBoxColumn With {.HeaderText = "Argomenti", .DataPropertyName = NameOf(Elemento.Argomenti), .FillWeight = 25, .MinimumWidth = 90})
         griglia.Columns.Add(New DataGridViewComboBoxColumn With {.HeaderText = "Monitor", .DataPropertyName = NameOf(Elemento.Monitor), .FillWeight = 10, .MinimumWidth = 75,
                             .DataSource = Enumerable.Range(1, 6).ToList(), .ValueType = GetType(Integer), .FlatStyle = FlatStyle.Flat})
         griglia.Columns.Add(New DataGridViewComboBoxColumn With {.HeaderText = "Posizione", .DataPropertyName = NameOf(Elemento.Posizione), .FillWeight = 20, .MinimumWidth = 130,
                             .DataSource = posizioni, .DisplayMember = "Testo", .ValueMember = "Valore", .ValueType = GetType(Posizione), .FlatStyle = FlatStyle.Flat})
+        griglia.Columns.Add(New DataGridViewCheckBoxColumn With {.HeaderText = "In scheda", .DataPropertyName = NameOf(Elemento.NuovaScheda),
+                            .AutoSizeMode = DataGridViewAutoSizeColumnMode.None, .Width = 80,
+                            .ToolTipText = "Solo cartelle: apre in una nuova scheda di Esplora file se è già aperto, altrimenti in una nuova finestra"})
+        menuSfoglia.Items.Add("Programma o file...", Nothing, Sub() Imposta(rigaSfoglia, ScegliFile()))
+        menuSfoglia.Items.Add("Cartella (Esplora file)...", Nothing, Sub() Imposta(rigaSfoglia, ScegliCartella()))
         AddHandler griglia.CellContentClick, Sub(s, e)
                                                  If e.ColumnIndex = 1 AndAlso e.RowIndex >= 0 Then Sfoglia(e.RowIndex)
                                              End Sub
@@ -149,17 +156,32 @@ Public Class FormConfigurazione
     End Sub
 
     Private Sub Sfoglia(riga As Integer)
+        rigaSfoglia = riga
+        menuSfoglia.Show(Cursor.Position)
+    End Sub
+
+    Private Function ScegliFile() As String
         Using d As New OpenFileDialog With {.Filter = "Programmi e collegamenti|*.exe;*.lnk;*.bat;*.cmd|Tutti i file|*.*", .DereferenceLinks = False}
-            If d.ShowDialog(Me) <> DialogResult.OK Then Return
-            griglia.EndEdit()
-            Dim righe = DirectCast(griglia.DataSource, BindingList(Of Elemento))
-            If riga < righe.Count Then
-                righe(riga).Destinazione = d.FileName
-                righe.ResetItem(riga)
-            Else ' click sulla riga vuota in fondo
-                righe.Add(New Elemento With {.Destinazione = d.FileName})
-            End If
+            Return If(d.ShowDialog(Me) = DialogResult.OK, d.FileName, Nothing)
         End Using
+    End Function
+
+    Private Function ScegliCartella() As String
+        Using d As New FolderBrowserDialog With {.Description = "Cartella da aprire in Esplora file", .UseDescriptionForTitle = True}
+            Return If(d.ShowDialog(Me) = DialogResult.OK, d.SelectedPath, Nothing)
+        End Using
+    End Function
+
+    Private Sub Imposta(riga As Integer, percorso As String)
+        If percorso Is Nothing Then Return
+        griglia.EndEdit()
+        Dim righe = DirectCast(griglia.DataSource, BindingList(Of Elemento))
+        If riga < righe.Count Then
+            righe(riga).Destinazione = percorso
+            righe.ResetItem(riga)
+        Else ' click sulla riga vuota in fondo
+            righe.Add(New Elemento With {.Destinazione = percorso})
+        End If
     End Sub
 
     Private Sub AggiungiReteAttuale()

@@ -21,7 +21,8 @@ WorkContext è una piccola applicazione per Windows che riconosce **da quale cli
   Non usa geolocalizzazione né IP pubblico e non contatta servizi esterni.
 - **Aspetta un tempo configurabile** (predefinito 5 secondi) per dare alla rete il tempo di stabilizzarsi.
 - **Chiede conferma** con un popup in stile "notch" in alto al centro dello schermo: *Apri* (Invio) o *Ignora* (Esc).
-- **Apre l'ambiente di lavoro**: programmi, file, collegamenti e URL, ciascuno con argomenti, monitor e posizione (non spostare, massimizzata, metà sinistra, metà destra).
+- **Apre l'ambiente di lavoro**: programmi, file, collegamenti, URL e cartelle, ciascuno con argomenti, monitor e posizione (non spostare, massimizzata, metà sinistra, metà destra).
+- **Apre cartelle in Esplora file** in una nuova finestra oppure, con l'opzione *In scheda*, in una nuova scheda della finestra di Esplora file già aperta (Windows 11). Se Esplora file non è aperto, usa una nuova finestra.
 - **Non ti disturba** a ogni micro-disconnessione del Wi-Fi: chiede di nuovo solo quando cambi cliente o riavvii l'app.
 
 ### Menu dell'icona
@@ -40,7 +41,7 @@ Dalla finestra di configurazione si definiscono, per ogni cliente:
 
 - **Nome**;
 - **Reti** che lo identificano, una per riga: nome rete, suffisso DNS o IP gateway. Il pulsante *Aggiungi nome della rete attuale* inserisce la rete a cui sei connesso;
-- **Cosa aprire**: programma/file/URL (pulsante `…` per sfogliare), argomenti, monitor, posizione;
+- **Cosa aprire**: programma/file/URL/cartella (pulsante `…` per scegliere un file o una cartella), argomenti, monitor, posizione, *In scheda* (solo cartelle);
 - **Prova**: apre subito l'ambiente del cliente selezionato.
 
 In fondo alla finestra si imposta l'**attesa prima del rilevamento** in secondi.
@@ -53,6 +54,7 @@ I dati sono salvati in `%APPDATA%\WorkContext\clienti.json`. A ogni salvataggio 
 - Gli URL con una posizione impostata si aprono in una **nuova finestra di Microsoft Edge**, perché una scheda del browser predefinito non si può posizionare. Gli URL con "Non spostare" usano il browser predefinito.
 - Non si possono spostare le finestre di programmi avviati **come amministratore**.
 - Il popup di conferma compare sul monitor principale.
+- L'apertura *In scheda* usa un comando interno di Esplora file (Windows 11 22H2 o successivo), non documentato da Microsoft. Se non è disponibile, la cartella si apre in una nuova finestra. In scheda monitor e posizione vengono ignorati, perché la finestra esiste già.
 
 ### Tecnologie
 
@@ -87,6 +89,7 @@ Argomenti da riga di comando:
 | `Rete.vb` | Lettura di nomi rete, suffissi DNS e gateway |
 | `Config.vb` | Modello dati e lettura/scrittura di `clienti.json` |
 | `Avvio.vb` | Apertura degli elementi e posizionamento delle finestre |
+| `Esplora.vb` | Apertura di cartelle in una nuova scheda di Esplora file |
 | `FormConfigurazione.vb` | Finestra di configurazione clienti |
 | `Notch.xaml`, `Notch.xaml.vb` | Popup di conferma |
 | `SelfTest.vb` | Controlli eseguiti con `--selftest` |
@@ -109,7 +112,8 @@ WorkContext is a small Windows application that detects **which customer site yo
   It does not use geolocation or your public IP and does not contact any external service.
 - **Waits a configurable delay** (5 seconds by default) so the network can settle.
 - **Asks for confirmation** with a "notch"-style popup at the top center of the screen: *Apri* / Open (Enter) or *Ignora* / Ignore (Esc).
-- **Opens the work environment**: programs, files, shortcuts and URLs, each with arguments, monitor and position (don't move, maximized, left half, right half).
+- **Opens the work environment**: programs, files, shortcuts, URLs and folders, each with arguments, monitor and position (don't move, maximized, left half, right half).
+- **Opens folders in File Explorer** in a new window or, with the *In scheda* (in tab) option, in a new tab of the File Explorer window already open (Windows 11). If File Explorer is not open, a new window is used.
 - **Doesn't nag you** on every Wi-Fi hiccup: it asks again only when the customer changes or the app restarts.
 
 ### Tray menu
@@ -128,7 +132,7 @@ In the configuration window you define, for each customer:
 
 - **Name**;
 - **Networks** that identify it, one per line: network name, DNS suffix or gateway IP. The *Aggiungi nome della rete attuale* (add current network name) button inserts the network you are connected to;
-- **What to open**: program/file/URL (`…` button to browse), arguments, monitor, position;
+- **What to open**: program/file/URL/folder (`…` button to pick a file or a folder), arguments, monitor, position, *In scheda* (folders only);
 - **Prova** (Test): opens the selected customer's environment right away.
 
 At the bottom of the window you set the **delay before detection** in seconds.
@@ -141,6 +145,7 @@ Data is stored in `%APPDATA%\WorkContext\clienti.json`. On every save the previo
 - URLs with a position set open in a **new Microsoft Edge window**, because a tab in the default browser cannot be positioned. URLs set to "don't move" use the default browser.
 - Windows of programs running **as administrator** cannot be moved.
 - The confirmation popup appears on the primary monitor.
+- Opening *In scheda* (in tab) uses an internal File Explorer command (Windows 11 22H2 or later) that Microsoft does not document. If it is not available, the folder opens in a new window. In a tab, monitor and position are ignored because the window already exists.
 
 ### Technologies
 
@@ -175,6 +180,7 @@ Command-line arguments:
 | `Rete.vb` | Reads network names, DNS suffixes and gateways |
 | `Config.vb` | Data model and `clienti.json` read/write |
 | `Avvio.vb` | Opens items and positions windows |
+| `Esplora.vb` | Opens folders in a new File Explorer tab |
 | `FormConfigurazione.vb` | Customer configuration window |
 | `Notch.xaml`, `Notch.xaml.vb` | Confirmation popup |
 | `SelfTest.vb` | Checks run by `--selftest` |

@@ -27,6 +27,8 @@ Public Module Avvio
 
     Private Sub Apri(e As Elemento)
         Dim dest = Environment.ExpandEnvironmentVariables(e.Destinazione.Trim())
+        ' in scheda la finestra esiste già: monitor/posizione non si applicano
+        If e.NuovaScheda AndAlso IO.Directory.Exists(dest) AndAlso Esplora.ApriInScheda(dest) Then Return
         Dim psi As New ProcessStartInfo(dest, Environment.ExpandEnvironmentVariables(e.Argomenti)) With {.UseShellExecute = True}
         If e.Posizione <> Posizione.Nessuna AndAlso IsUrl(dest) Then
             ' shortcut: nel browser predefinito l'URL finisce in una scheda non posizionabile, quindi uso una nuova finestra Edge; aggiungere scelta browser se serve.

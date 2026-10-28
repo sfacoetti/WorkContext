@@ -16,3 +16,4 @@ C:\TMP\PROGETTI\WorkContext\obj\Release\net10.0-windows\Notch.baml
 C:\TMP\PROGETTI\WorkContext\obj\Release\net10.0-windows\Notch.g.vb
 C:\TMP\PROGETTI\WorkContext\obj\Release\net10.0-windows\WorkContext_MarkupCompile.cache
 C:\TMP\PROGETTI\WorkContext\obj\Release\net10.0-windows\WorkContext.g.resources
+C:\TMP\PROGETTI\WorkContext\obj\Release\net10.0-windows\WorkContext.sourcelink.json

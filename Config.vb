@@ -14,6 +14,8 @@ Public Class Elemento
     Public Property Argomenti As String = ""
     Public Property Monitor As Integer = 1
     Public Property Posizione As Posizione = Posizione.Nessuna
+    ''' <summary>Solo per cartelle: nuova scheda di Esplora file se ce n'è uno aperto, altrimenti nuova finestra.</summary>
+    Public Property NuovaScheda As Boolean
 End Class
 
 Public Class Cliente
