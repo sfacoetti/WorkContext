@@ -1,0 +1,87 @@
+<Window x:Class="Notch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WorkContext – nuovo cliente" Width="560" Height="130"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
+        FontFamily="Segoe UI Variable Display, Segoe UI" TextOptions.TextFormattingMode="Display">
+    <Window.Resources>
+        <Style x:Key="Pillola" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#2EFFFFFF"/>
+            <Setter Property="Padding" Value="18,7"/>
+            <Setter Property="Margin" Value="8,0,0,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="16"
+                                Padding="{TemplateBinding Padding}" BorderBrush="Transparent" BorderThickness="1.5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="b" Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="b" Property="BorderBrush" Value="#8C8CFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="Isola" RenderTransformOrigin="0.5,0">
+        <Grid.RenderTransform>
+            <ScaleTransform x:Name="Scala" ScaleX="0.3" ScaleY="0.2"/>
+        </Grid.RenderTransform>
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="26" ShadowDepth="6" Direction="270" Opacity="0.5" Color="Black"/>
+        </Grid.Effect>
+
+        <!-- sagoma notch: bordo superiore attaccato allo schermo con "orecchie" concave, angoli bassi arrotondati -->
+        <Path Fill="#F50B0B0E"
+              Data="M 8,0 A 12,12 0 0 1 20,12 L 20,68 A 28,28 0 0 0 48,96 L 512,96 A 28,28 0 0 0 540,68 L 540,12 A 12,12 0 0 1 552,0 Z"/>
+
+        <Grid x:Name="Contenuto" Margin="40,14,40,0" Height="72" VerticalAlignment="Top" Opacity="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Width="44" Height="44" VerticalAlignment="Center">
+                <Ellipse>
+                    <Ellipse.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#7C5CFF" Offset="0"/>
+                            <GradientStop Color="#21D4FD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock x:Name="Iniziale" Foreground="White" FontSize="19" FontWeight="Bold"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <StackPanel Grid.Column="1" Margin="14,0,8,0" VerticalAlignment="Center">
+                <TextBlock Text="NUOVO CLIENTE RILEVATO" Foreground="#8E8E93" FontSize="10.5" FontWeight="SemiBold"/>
+                <TextBlock x:Name="NomeCliente" Foreground="White" FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="Dettaglio" Foreground="#A1A1A6" FontSize="12" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button x:Name="BtnIgnora" Content="Ignora" Style="{StaticResource Pillola}" IsCancel="True"/>
+                <Button x:Name="BtnApri" Content="Apri" Style="{StaticResource Pillola}" IsDefault="True"
+                        Background="White" Foreground="#0B0B0E"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
