@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- WPF solo per il popup "notch": trasparenza e angoli antialias che WinForms non offre -->
+    <UseWPF>true</UseWPF>
+    <RootNamespace>WorkContext</RootNamespace>
+    <ApplicationIcon>WorkContext.ico</ApplicationIcon>
+    <StartupObject>WorkContext.Program</StartupObject>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+</Project>
