@@ -1,0 +1,80 @@
+\# AGENTS.MD
+
+
+
+\## 1. plan before the agent touches code
+
+\- on a long task, it first says the goal back to you in 2 to 3 sentences
+
+\- it starts only after you say yes
+
+\- it writes the steps to PLAN.md, each with how it will prove the step works
+
+\- after two failed tries on one step, it stops, notes what failed and plans again
+
+\- when it pauses mid-task, PLAN.md stays, so a new session can continue
+
+
+
+\## 2. make the smallest change that works
+
+\- it stays inside the task and keeps working code working
+
+\- on a tradeoff, it weighs users (UX), the next developer (DX) and the next agent (AX)
+
+\- it adds dependencies, renames and refactors only when you ask
+
+\- it makes a backup before it deletes or overwrites anything
+
+
+
+\## 3. split work across subagents
+
+\- the explorer reads, the worker edits, the reviewer only reports
+
+\- each subagent gets one job, a done condition and a 5-line report
+
+\- parallel work is fine, with one agent per file
+
+\- check the key claim in a report before you build on it
+
+
+
+\## 4. own the bug
+
+\- it reproduces the bug with your steps first, or asks for what it needs
+
+\- it fixes the cause, then runs the same steps again
+
+\- it keeps every error visible
+
+
+
+\#  5. verify before it says done
+
+\- it runs the tests and reads the output itself
+
+\- for UI, it opens the page and tries to break it: empty input, double submit, refresh
+
+\- an unrun check counts as unverified, and the report says so
+
+\- the report has 2 to 3 lines: what it picked, what it gave up, and why
+
+
+
+\# 6. write down every correction
+
+\- each correction becomes one line under Lessons: "When X, do Y"
+
+\- the same mistake twice means the lesson is unclear, so rewrite it
+
+\- the agent asks before it changes anything above Lessons
+
+
+
+
+
+# Lessons
+
+- When si rileva il cliente/luogo, usa solo segnali locali di rete (nome rete, DNS, gateway): niente geolocalizzazione né IP pubblico.
+- When serve uno strumento per uso quotidiano, proponi una piccola app (tray, VB.NET) invece di uno script PowerShell.
